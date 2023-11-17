@@ -1,0 +1,53 @@
+
+/* Gin Layout Builder does all this better... */
+/*.js-layout-builder-categories {*/
+
+/*}*/
+
+/*.layout-builder-browser__category {*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  flex-wrap: wrap;*/
+/*  gap: 15px;*/
+/*}*/
+
+/*a.layout-builder-browser-block-item {*/
+/*  display: inline-flex !important;*/
+/*  gap: 6px;*/
+/*  flex-direction: column !important;*/
+/*  color: white !important;*/
+/*  text-decoration: none;*/
+/*  border: 1px solid white !important;*/
+/*  padding: 15px !important;*/
+/*  text-align: center;*/
+/*  width: 80px;*/
+/*  flex: 0 0 80px !important;*/
+/*}*/
+
+/*a.layout-builder-browser-block-item img {*/
+/*  width:100%;*/
+/*  height: auto;*/
+/*  margin-bottom: auto;*/
+/*}*/
+
+.js-layout-builder-category .glb-claro-details__wrapper {
+  gap: 15px;
+}
+
+a.layout-builder-browser-block-item {
+  width: calc(33% - 50px);
+  min-width: 80px;
+  margin-bottom: 5px;
+  display: inline-flex !important;
+  gap: 6px;
+  flex-direction: column !important;
+  color: var(--gin-color-text) !important;
+  text-decoration: none;
+  border: 1px solid var(--gin-color-text) !important;
+  padding: 15px !important;
+  text-align: center;
+}
+
+a.layout-builder-browser-block-item img {
+  margin-bottom: auto;
+}

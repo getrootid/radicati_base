@@ -1,0 +1,13 @@
+taxonomy-icon-widget:
+  version: 1.x
+  css:
+    theme:
+      dist/css/taxonomy-icon-widget.css: {}
+  dependencies:
+    - radicati_drupal/font-awesome
+
+layout-builder--browser:
+  version: 1.x
+  css:
+    theme:
+      dist/css/layout-builder--browser.css: {}

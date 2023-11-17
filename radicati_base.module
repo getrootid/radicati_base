@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * Adds a class to block_content block types so that they cqan be
+ * styled per type.
+ */
+function radicati_base_preprocess_block(&$variables) {
+  $block = $variables['elements']['#block'];
+  $variables['attributes']['class'][] = 'block-j' . $block->plugin_id;
+}
+
+// Add the layout-builder--browser library to the layout builder page.
+// TODO: Currently attaches for all forms, update this!
+/**
+ * Implements hook_form_alter().
+ */
+function radicati_base_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+
+   // $form['#attached']['library'][] = 'radicati_base/layout-builder--browser';
+
+}
+
+function radicati_base_layout_builder_browser_alter(&$build, $context) {
+//  foreach($build['block_categories'] as $key => $value) {
+//    if($key[0] != '#') {
+//      $build['block_categories'][$key]['container']['#type'] = 'container';
+//      $build['block_categories'][$key]['container']['#attributes']['class'][] = 'layout-builder-browser__category';
+//      $build['block_categories'][$key]['container']['links'] = $build['block_categories'][$key]['links'];
+//      unset($build['block_categories'][$key]['links']);
+//    }
+//  }
+  $build['#attached']['library'][] = 'radicati_base/layout-builder--browser';
+}
+
+/**
+ *
+ * Allow Inline Entity Form to display the title of the paragraph entity instead of complete
+ * gibberish.
+ *
+ * TODO: The gibberish is still displayed when searching for a saved paragraph entity.
+ *
+ *
+ * @param $fields
+ * @param $context
+ */
+function radicati_base_inline_entity_form_table_fields_alter(&$fields, $context) {
+  if ($context['entity_type'] == 'paragraph') {
+    unset($fields['label']);
+
+    $fields['title'] = [
+      'type' => 'callback',
+      'label' => t('Title'),
+      'callback' => '_rb_ief_table_field_title',
+    ];
+  }
+}
+
+/**
+ * @param $entity A Paragraph entity.
+ * @return mixed The label to use in the edit form.
+ */
+function _rb_ief_table_field_title($entity) {
+
+  // If the entity bundle has a preview mode defined, then use that.
+  $viewModes = \Drupal::service('entity_display.repository')->getViewModeOptionsByBundle('paragraph', $entity->bundle());
+  if(!empty($viewModes['preview'])) {
+    $viewBuilder = \Drupal::entityTypeManager()->getViewBuilder('paragraph');
+    return $viewBuilder->view($entity, 'preview');
+  }
+
+  // If there isn't a preview mode defined, then use the summary.
+  return $entity->getSummary();
+}
