@@ -1,35 +1,35 @@
 <?php
 
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Component\Utility\Html;
+
+
 /**
- * Adds a class to block_content block types so that they cqan be
- * styled per type.
+ * Implements hook_theme().
  */
-function radicati_base_preprocess_block(&$variables) {
-  $block = $variables['elements']['#block'];
-  $variables['attributes']['class'][] = 'block-j' . $block->plugin_id;
-}
-
-// Add the layout-builder--browser library to the layout builder page.
-// TODO: Currently attaches for all forms, update this!
-/**
- * Implements hook_form_alter().
- */
-function radicati_base_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
-{
-
-   // $form['#attached']['library'][] = 'radicati_base/layout-builder--browser';
-
+function radicati_base_theme($existing, $type, $theme, $path) {
+  return [
+    'radicati_search_form' => [
+      'variables' => [
+        'action_route' => NULL,
+      ]
+    ],
+    'radicati_button' => [
+      'variables' => [
+        'button_label' => '',
+        'label_display' => 'none',
+        'icon_classes' => '',
+        'button_id' => '',
+        'icon_classes_active' => '',
+        'aria_controls' => '',
+      ],
+    ],
+  ];
 }
 
 function radicati_base_layout_builder_browser_alter(&$build, $context) {
-//  foreach($build['block_categories'] as $key => $value) {
-//    if($key[0] != '#') {
-//      $build['block_categories'][$key]['container']['#type'] = 'container';
-//      $build['block_categories'][$key]['container']['#attributes']['class'][] = 'layout-builder-browser__category';
-//      $build['block_categories'][$key]['container']['links'] = $build['block_categories'][$key]['links'];
-//      unset($build['block_categories'][$key]['links']);
-//    }
-//  }
+  // Styling for the layout builder browser.
   $build['#attached']['library'][] = 'radicati_base/layout-builder--browser';
 }
 
@@ -71,4 +71,52 @@ function _rb_ief_table_field_title($entity) {
 
   // If there isn't a preview mode defined, then use the summary.
   return $entity->getSummary();
+}
+
+/**
+ * A one-two punch that allows an editor to override the alt text for an image.
+ */
+function radicati_base_preprocess_field(&$variables) {
+  if($variables['element']['#field_type'] == 'entity_reference') {
+    // See if the field_alt_override field exists on the parent entity.
+    if($variables['element']['#object']->hasField('field_alt_text_override')) {
+
+      if(!$variables['element']['#object']->get('field_alt_text_override')->isEmpty()) {
+        $variables['element']['#items'][0]->entity->alt_override = $variables["element"]['#object']->get('field_alt_text_override')->value;
+      } else {
+        unset($variables['element']['#items'][0]->entity->alt_override);
+      }
+
+      // Invalidate the cache for this media entity.
+      $variables['element']['#items'][0]->entity->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function radicati_base_preprocess_media__image(&$variables) {
+  if(!empty($variables['elements']['#media']->alt_override)) {
+    $variables['content']['field_media_image'][0]['#item']->set('alt',  $variables['elements']['#media']->alt_override);
+  }
+}
+
+function radicati_base_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  foreach ($display->getComponents() as $key => $field) {
+    if (isset($field['type']) && $field['type'] === 'rad_tax_setting') {
+      $field_name = substr($key, 6);
+
+      if ($entity->hasField($key)) {
+        $terms = $entity->get($key)->referencedEntities();
+
+        foreach ($terms as $term) {
+          $title = $term->getName();
+          $title = strtolower($title);
+          $title = $field_name . "--" . $title;
+          $build['#attributes']['class'][] = Html::cleanCssIdentifier($title);
+        }
+      }
+    }
+  }
 }

@@ -11,3 +11,10 @@ layout-builder--browser:
   css:
     theme:
       dist/css/layout-builder--browser.css: {}
+
+radicati-button-block:
+  version: 1.x
+  js:
+    dist/js/button-block.js: {}
+  dependencies:
+    - core/once
