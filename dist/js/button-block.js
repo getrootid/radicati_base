@@ -3,6 +3,10 @@ Drupal.behaviors.myBehavior = {
 
     once('button-block-click', 'button.radicati-button', context).forEach(
         function (element) {
+          if(element.dataset.handleClick === '0') {
+            return;
+          }
+
           // Add a click handler that calls radButtonPressed and passes in context.
           element.addEventListener('click', function () {
             radButtonPressed(element);

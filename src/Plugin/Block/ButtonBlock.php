@@ -27,6 +27,7 @@ class ButtonBlock extends BlockBase {
       'button_label' => '',
       'button_label_display' => 'none',
       'aria_controls' => '',
+      'handle_click' => TRUE,
     ];
   }
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
@@ -84,6 +85,13 @@ class ButtonBlock extends BlockBase {
       '#default_value' => $this->configuration['aria_controls'],
     ];
 
+    $form['handle_click'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Handle Click'),
+      '#description' => $this->t('If unchecked the default click handler wont be used. Useful for cases where the theme has to do extra things when a button is clicked.'),
+      '#default_value' => $this->configuration['handle_click'],
+    ];
+
     return $form;
   }
 
@@ -94,13 +102,13 @@ class ButtonBlock extends BlockBase {
     $this->configuration['button_label'] = $form_state->getValue('button_label');
     $this->configuration['button_label_display'] = $form_state->getValue('button_label_display');
     $this->configuration['aria_controls'] = $form_state->getValue('aria_controls');
+    $this->configuration['handle_click'] = $form_state->getValue('handle_click');
   }
 
 
 
   public function build() {
-
-    return [
+    $build = [
       '#theme'  => 'radicati_button',
       '#icon_classes' => $this->configuration['icon_classes'],
       '#icon_classes_active' => $this->configuration['icon_classes_active'],
@@ -108,11 +116,13 @@ class ButtonBlock extends BlockBase {
       '#button_id' => $this->configuration['button_id'],
       '#label_display' => $this->configuration['button_label_display'],
       '#aria_controls' => $this->configuration['aria_controls'],
-      '#attached' => [
-        'library' => [
-          'radicati_base/radicati-button-block',
-        ]
-      ]
+      '#handle_click' => $this->configuration['handle_click'],
     ];
+
+    if($this->configuration['handle_click']) {
+      $build['#attached']['library'][] = 'radicati_base/radicati-button-block';
+    }
+
+    return $build;
   }
 }

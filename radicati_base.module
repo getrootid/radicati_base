@@ -23,6 +23,7 @@ function radicati_base_theme($existing, $type, $theme, $path) {
         'button_id' => '',
         'icon_classes_active' => '',
         'aria_controls' => '',
+        'handle_click' => TRUE,
       ],
     ],
   ];
