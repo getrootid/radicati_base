@@ -1,5 +1,5 @@
 name: Radicati Base
 type: module
-core_version_requirement: ^8.8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 description: 'Required code for other aspects of the Radicati platform.'
 package: 'radicati'

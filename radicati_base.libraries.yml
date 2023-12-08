@@ -3,8 +3,6 @@ taxonomy-icon-widget:
   css:
     theme:
       dist/css/taxonomy-icon-widget.css: {}
-  dependencies:
-    - radicati_drupal/font-awesome
 
 layout-builder--browser:
   version: 1.x
