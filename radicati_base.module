@@ -13,6 +13,7 @@ function radicati_base_theme($existing, $type, $theme, $path) {
     'radicati_search_form' => [
       'variables' => [
         'action_route' => NULL,
+        'form_id' => NULL,
       ]
     ],
     'radicati_button' => [
