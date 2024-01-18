@@ -119,6 +119,17 @@ function radicati_base_entity_view_alter(array &$build, EntityInterface $entity,
           $build['#attributes']['class'][] = Html::cleanCssIdentifier($title);
         }
       }
+    } elseif (isset($field['type']) && $field['type'] === 'rad_boolean_setting') {
+      $field_name = substr($key, 6);
+
+      if ($entity->hasField($key)) {
+        $value = $entity->get($key)->first()->getValue();
+
+        if($value['value']) {
+          $class = $field_name . '--is-set';
+          $build['#attributes']['class'][] = Html::cleanCssIdentifier($class);
+        }
+      }
     }
   }
 }
