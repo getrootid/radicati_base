@@ -112,6 +112,10 @@ function radicati_base_entity_view_alter(array &$build, EntityInterface $entity,
       if ($entity->hasField($key)) {
         $terms = $entity->get($key)->referencedEntities();
 
+        // Create base setting class to let the styles know this setting is being used.
+        $setting_class = 'component-setting--' . $field_name;
+        $build['#attributes']['class'][] = Html::cleanCssIdentifier($setting_class);
+
         foreach ($terms as $term) {
           $title = $term->getName();
           $title = strtolower($title);
