@@ -111,6 +111,7 @@ function radicati_base_entity_view_alter(array &$build, EntityInterface $entity,
 
       if ($entity->hasField($key)) {
         $terms = $entity->get($key)->referencedEntities();
+        $useData = $field['settings']['use_data_attributes'];
 
         // Create base setting class to let the styles know this setting is being used.
         $setting_class = 'component-setting--' . $field_name;
@@ -119,8 +120,16 @@ function radicati_base_entity_view_alter(array &$build, EntityInterface $entity,
         foreach ($terms as $term) {
           $title = $term->getName();
           $title = strtolower($title);
-          $title = $field_name . "--" . $title;
-          $build['#attributes']['class'][] = Html::cleanCssIdentifier($title);
+
+          if($useData) {
+            $field_name = str_replace('_', '-', $field_name);
+            $build['#attributes'][$field_name] = Html::cleanCssIdentifier($title);
+
+          } else {
+            $title = $field_name . "--" . $title;
+            $build['#attributes']['class'][] = Html::cleanCssIdentifier($title);
+          }
+
         }
       }
     } elseif (isset($field['type']) && $field['type'] === 'rad_boolean_setting') {

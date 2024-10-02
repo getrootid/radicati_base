@@ -33,10 +33,19 @@ class TaxonomySettingFormatter extends FormatterBase {
   }
 
   public static function defaultSettings()   {
-    return parent::defaultSettings();
+    $settings = parent::defaultSettings();
+    $settings['use_data_attributes'] = FALSE;
+    return $settings;
   }
 
   public function settingsForm(array $form, FormStateInterface $form_state) {
+    $form['use_data_attributes'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use data attributes'),
+      '#default_value' => $this->getSetting('use_data_attributes'),
+      '#description' => $this->t('Causes the setting to use a data attribute instead of a class. If the field is called field_data_test, then the attribute will be data-test')
+    ];
+
     return $form;
   }
 
