@@ -27,6 +27,15 @@ function radicati_base_theme($existing, $type, $theme, $path) {
         'handle_click' => TRUE,
       ],
     ],
+    'radicati_link_button' => [
+      'variables' => [
+        'link' => NULL,
+        'title' => NULL,
+        'url' => NULL,
+        'button_class' => '',
+        'new_tab' => '',
+      ],
+    ],
   ];
 }
 

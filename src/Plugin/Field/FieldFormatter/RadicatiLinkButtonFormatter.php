@@ -24,14 +24,24 @@ class RadicatiLinkButtonFormatter extends LinkFormatter {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
+
+
     foreach ($items as $delta => $item) {
       $url = $this->buildUrl($item);
 
-      // Prepare default link:
+      // Create a wrapper that can be templated in the theme layer.
       $elements[$delta] = [
+        '#theme' => 'radicati_link_button',
+        '#title' => $item->title,
+        '#url' => $url
+      ];
+
+
+      // Prepare default link:
+      $link = [
         '#type' => 'link',
         '#title' => $item->title,
-        '#url' => $url,
+        '#url' => $url
       ];
 
       $values = $item->getValue();
@@ -43,12 +53,15 @@ class RadicatiLinkButtonFormatter extends LinkFormatter {
         $buttonClass = $buttonTerm->get('field_setting_class')->value;
 
         $attributes['class'] = $buttonClass;
+        $elements[$delta]['#button_class'] = $buttonClass;
 
         if($values['options']['new_tab']) {
-          $attributes['target'] = '_blank';
+          $attributes['new_tab'] = true;
+          $elements[$delta]['#target'] = '_blank';
         }
 
-        $elements[$delta]['#options']['attributes'] = $attributes;
+        $link['#options']['attributes'] = $attributes;
+        $elements[$delta]['#link'] = $link;
       }
     }
     return $elements;
