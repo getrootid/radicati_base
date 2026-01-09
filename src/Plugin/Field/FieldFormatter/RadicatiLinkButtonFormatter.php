@@ -56,7 +56,7 @@ class RadicatiLinkButtonFormatter extends LinkFormatter {
         $elements[$delta]['#button_class'] = $buttonClass;
 
         if($values['options']['new_tab']) {
-          $attributes['new_tab'] = true;
+          $elements[$delta]['#new_tab'] = true;
           $elements[$delta]['#target'] = '_blank';
         }
 
