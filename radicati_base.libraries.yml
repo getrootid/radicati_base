@@ -16,3 +16,13 @@ radicati-button-block:
     dist/js/button-block.js: {}
   dependencies:
     - core/once
+
+back-to-top:
+  version: 1.x
+  css:
+    layout:
+      dist/css/radicati-back-to-top.css: {}
+  js:
+    dist/js/radicati-back-to-top.js: {}
+  dependencies:
+    - core/drupal.once

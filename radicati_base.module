@@ -36,6 +36,12 @@ function radicati_base_theme($existing, $type, $theme, $path) {
         'new_tab' => '',
       ],
     ],
+    'radicati_back_to_top' => [
+      'variables' => [],
+      'library' => [
+        'radicati_base/back-to-top',
+      ],
+    ],
   ];
 }
 
