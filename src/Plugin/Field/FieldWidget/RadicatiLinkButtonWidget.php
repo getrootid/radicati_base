@@ -48,15 +48,23 @@ class RadicatiLinkButtonWidget extends LinkWidget {
     }
 
     $element['options'] = [
-      '#type' => 'details',
+      '#type' => 'container',
       '#title' => $this->t('Button Link Options'),
       '#open' => TRUE,
+      '#collapsible'=>FALSE
     ];
 
     $options = [];
     foreach($terms as $term) {
       $options[$term->tid] = $term->name;
     }
+
+    $element['options']['link_context'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Additional Context'),
+      '#description' => $this->t('Additional text to provide context for screen readers. This text will be visually hidden.<br />For example, if a button says "Read More" then this could be something like "about next year\'s programming".'),
+      '#default_value' => $items[$delta]->options['link_context'] ?? '',
+    ];
 
     $element['options']['button_type'] = [
       '#type' => 'select',

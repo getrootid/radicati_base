@@ -60,6 +60,10 @@ class RadicatiLinkButtonFormatter extends LinkFormatter {
           $elements[$delta]['#target'] = '_blank';
         }
 
+        if(!empty($values['options']['link_context'])) {
+          $elements[$delta]['#link_context'] = $values['options']['link_context'];
+        }
+
         $link['#options']['attributes'] = $attributes;
         $elements[$delta]['#link'] = $link;
       }

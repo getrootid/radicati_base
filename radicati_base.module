@@ -31,6 +31,7 @@ function radicati_base_theme($existing, $type, $theme, $path) {
       'variables' => [
         'link' => NULL,
         'title' => NULL,
+        'link_context' => '',
         'url' => NULL,
         'button_class' => '',
         'new_tab' => '',
