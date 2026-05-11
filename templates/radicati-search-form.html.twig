@@ -1,6 +1,7 @@
 <div id="{{ form_id }}" class="radicati-search-form">
   <form role="search" method="get" action="{{ action_route }}">
-    <input type="text" name="terms" class="radicati-search-form__input" placeholder="{{ 'search'|trans }}" />
+    <label for="{{ form_id }}-input" class="radicati-search-form__label visually-hidden">{{ 'Search'|trans }}</label>
+    <input type="text" id="{{ form_id }}-input" name="terms" class="radicati-search-form__input" placeholder="{{ 'search'|trans }}" />
     <button type="submit" class="radicati-search-form__submit">
       <i class="fa-solid fa-magnifying-glass" title="{{ 'Search'|t }}"></i>
     </button>
